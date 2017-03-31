@@ -37,12 +37,6 @@ if ischar(Jseed)==1
   Jseed = str2double(Jseed);
 end
 
-%bash can only support integers thus some values will be inputted as
-%"percents"
-Jstr = Jstr/100;
-Jdis = Jdis/100;
-Jz = Jz/100;
-
 %print parameters to screen
 fprintf('L = %d, Jstr = %f, Jdis = %f, Jz = %f, m = %d, Pdist = %d, Jseed = %d\n',L,Jstr,Jdis,Jz,m,Pdist,Jseed);
 
