@@ -8,11 +8,19 @@ function ee = eentropydm(dm)
 % Equation is ee = - tr(dm * log2(dm));
 
 %make sure that the dm's are hermitean
-dm = (dm + dm')/2;
+dm = 0.5*(dm + dm');
 
-[dmv,dmnrg] = eig(dm);
+[dmv,dmnrg] = eig(dm,'vector');
 
-nzloc = find(diag(dmnrg)>=1E-15);
+%check for negative eigs
+if min(dmnrg) <= 0
+    %check if numerically small and fix
+    if abs(min(dmnrg)) < 1E-15
+        dmnrg(dmnrg<=0) = 1e-16;
+    else
+        error('dm is not positive definite');
+    end
+end
 
-ee = -trace(dm*dmv*((diag(log2(diag(dmnrg)))+diag(log2(diag(dmnrg)))')/2)*dmv');
+ee = -trace(dm*dmv*((diag(log2(dmnrg))+diag(log2(dmnrg))')/2)*dmv');
 
